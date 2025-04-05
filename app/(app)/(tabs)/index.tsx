@@ -1,5 +1,6 @@
 import { images } from "@/constants/images";
 import { Image, Text, View } from "react-native";
+import * as SplashScreen from 'expo-splash-screen';
 
 
 export default function Index() {
