@@ -30,8 +30,10 @@ const _Layout = () => {
     <Tabs
         screenOptions = {{
             tabBarShowLabel : false,
+           
             tabBarStyle : {
-                backgroundColor: '#231D58'
+                backgroundColor: '#231D58',
+                borderTopWidth : 0,
 
             }
         }}
