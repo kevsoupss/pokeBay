@@ -1,6 +1,6 @@
 import { images } from "@/constants/images";
-import { Image, Text, View } from "react-native";
-import * as SplashScreen from 'expo-splash-screen';
+import auth from '@react-native-firebase/auth';
+import { Button, Image, Text, View } from "react-native";
 
 
 export default function Index() {
@@ -9,6 +9,7 @@ export default function Index() {
     >
       <Text className="text-5xl text-white">PokeBay</Text>
       <Image source={images.logo} />
+      <Button title="Sign out" onPress={() => auth().signOut()} />
     </View>
   );
 }
