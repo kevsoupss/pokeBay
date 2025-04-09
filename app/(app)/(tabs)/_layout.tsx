@@ -1,19 +1,20 @@
-import { View, Text, TextBase, ImageBackground } from 'react-native'
-import React from 'react'
-import { Tabs } from 'expo-router'
-import { Image } from 'react-native'
 import { icons } from '@/constants/icons'
 import { images } from '@/constants/images'
+import { Tabs } from 'expo-router'
+import React from 'react'
+import { Image, ImageBackground, Text } from 'react-native'
 
-const Tab_icon = ({focused,icon,title}: any) => {
+const TabIcon = ({focused,icon,title}: any) => {
    
-    
-    if(focused){
-        return(
+    if (focused){
+        return (
             <>
-            <ImageBackground source={images.buttonback} tintColor="#" className='flex flex-row flex-1 min-w-[75px] justify-center items-center gap-1'>
-            <Image source = {icon} className = "size-4" tintColor="#151312"/>
-            <Text>{title}</Text>
+            <ImageBackground 
+                source={images.buttonback} 
+                tintColor="#" 
+                className='flex flex-row flex-1 min-w-[112px] min-h-12 rounded-full justify-center items-center overflow-hidden mt-2'>
+                <Image source = {icon} className = "size-4" tintColor="#151312"/>
+                <Text className="text-base font-semibold pl-2">{title}</Text>
             </ImageBackground>
             </>
             
@@ -30,10 +31,16 @@ const _Layout = () => {
     <Tabs
         screenOptions = {{
             tabBarShowLabel : false,
+            tabBarItemStyle: {
+                width:'100%',
+                justifyContent:'center',
+                alignItems: 'center'
+            },
            
             tabBarStyle : {
                 backgroundColor: '#231D58',
                 borderTopWidth : 0,
+                height: 85,
 
             }
         }}
@@ -44,7 +51,7 @@ const _Layout = () => {
                 title: 'Home',
                 headerShown:false,
                 tabBarIcon : ({focused}:any) => (
-                   <Tab_icon focused = {focused} icon = {icons.home} title = 'Home' />
+                   <TabIcon focused = {focused} icon = {icons.home} title = 'Home' />
                 ) 
             }}
         />
@@ -54,7 +61,7 @@ const _Layout = () => {
                 title: 'Camera',
                 headerShown:false,
                 tabBarIcon : ({focused} : any) => (
-                    <Tab_icon focused = {focused} icon = {icons.camera} title = 'Camera' />
+                    <TabIcon focused = {focused} icon = {icons.camera} title = 'Camera' />
                  ) 
             }}
         />
@@ -64,7 +71,7 @@ const _Layout = () => {
                 title: 'Cards',
                 headerShown:false,
                 tabBarIcon : ({focused} : any) => (
-                    <Tab_icon focused = {focused} icon = {icons.card} title = 'Cards' />
+                    <TabIcon focused = {focused} icon = {icons.card} title = 'Cards' />
                  ) 
             }}
         />
@@ -74,7 +81,7 @@ const _Layout = () => {
                 title: 'Shop',
                 headerShown:false,
                 tabBarIcon : ({focused} : any) => (
-                    <Tab_icon focused = {focused} icon = {icons.shop} title = 'Shop'/>
+                    <TabIcon focused = {focused} icon = {icons.shop} title = 'Shop'/>
                  ) 
             }}
         />

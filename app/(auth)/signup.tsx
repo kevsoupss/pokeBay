@@ -34,7 +34,7 @@ const index = () => {
       <Text className="text-white text-6xl my-7">
         PokeBay
       </Text>
-      <Image source={images.logo} className="w-26 h-26"/>
+      <Image source={images.logo} className="w-20 h-20"/>
       <Text className="text-white py-10 text-2xl"> Create your account</Text>
       <KeyboardAvoidingView behavior="padding" className="w-screen items-center gap-6">
         
@@ -44,7 +44,9 @@ const index = () => {
           autoCapitalize="none"
           inputMode="text"
           placeholder="Username"
+          placeholderTextColor={"grey"}
           className="bg-white h-10 w-3/4 rounded-3xl pl-4"
+          maxLength={15}
         />
         
         <TextInput 
@@ -53,6 +55,7 @@ const index = () => {
           autoCapitalize="none"
           keyboardType="email-address"
           placeholder="Email"
+          placeholderTextColor={"grey"}
           className="bg-white h-10 w-3/4 rounded-3xl pl-4"
         />
         <TextInput 
@@ -60,6 +63,7 @@ const index = () => {
           onChangeText={setPassword}
           secureTextEntry
           placeholder="Password"
+          placeholderTextColor={"grey"}
           className="bg-white h-10 w-3/4 rounded-3xl pl-4"
         />
         

@@ -15,7 +15,6 @@ export default function RootLayout() {
     if (initializing) {
       setInitializing(false);
     }
-    console.log(user, initializing)
   }
 
   useEffect(() => {
@@ -25,14 +24,11 @@ export default function RootLayout() {
 
   useEffect(() => {
     console.log(user)
-    console.log("hereee", initializing)
     if (initializing) {
       return;
     }
 
     const inAppGroup = segments[0] === '(app)';
-    console.log(inAppGroup, "hi")
-    console.log(segments[0]);
     if (user && !inAppGroup) {
       console.log('Attempting redirect to /(app)/(tabs)');
       router.replace('/(app)/(tabs)');
