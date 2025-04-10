@@ -36,9 +36,9 @@ const Camera = () => {
     return (
       <View style={{width: "100%", height: "100%"   }}>
         <View style={{ 
-            height: 100, // Adjust height as needed
-            backgroundColor: '#12122C', // Or any color you prefer
-            zIndex: 10, // Ensure it stays on top
+            height: 100, 
+            backgroundColor: '#12122C', 
+            zIndex: 10, 
         }}>
         <TouchableOpacity className="flex-1 justify-end pl-4 pb-2" onPress={() => {
             setUri(null);
@@ -78,21 +78,28 @@ const Camera = () => {
     return (
         <View style={{width: "100%", height: "100%"   }}>
         <View style={{ 
-            height: 100, // Adjust height as needed
-            backgroundColor: '#12122C', // Or any color you prefer
-            zIndex: 10, // Ensure it stays on top
-        }}>
-        <TouchableOpacity className="flex-1 justify-end pl-4 pb-2" onPress={() => {
+            height: 100, 
+            backgroundColor: '#12122C', 
+            zIndex: 10,
+        }}
+        className="flex-row justify-center items-end">
+        <TouchableOpacity className="pl-4 pb-2" onPress={() => {
             setUri(null);
             router.back();
         }}>
-            <Image className="justify-start items-start w-4 h-4 font-bold" source={images.returnbutton}/>
+            <Image className="w-4 h-4 font-bold" source={images.returnbutton}/>
+        </TouchableOpacity>
+
+        <TouchableOpacity className="flex-1 items-end pr-4 pb-2" onPress={() => {
+            setUri(null);
+        }}>
+            <Image className="w-4 h-4 font-bold" source={images.cross}/>
         </TouchableOpacity>
         
-
       </View>
-      <Image
-          source={{ uri }}
+
+      {/* @ts-ignore */}
+      <Image source={{ uri }}
           style={{width: "100%", height: "70%"}}
         />
 
@@ -104,13 +111,11 @@ const Camera = () => {
           alignItems: 'center',
           backgroundColor: '#12122C',
         }}>
-          <TouchableOpacity className="pb-10"
 
-            onPress={() => takePicture()}
-          >
-
-            <Text>Continue</Text>
-          </TouchableOpacity>
+        <TouchableOpacity onPress={() => {}} 
+          className="bg-dark-200 border-white w-1/2 h-14 items-center justify-center rounded-[50px] border-[1px] mb-20"> 
+          <Text className="text-white font-bold text-xl"> Confirm</Text>
+        </TouchableOpacity>
         </View>
       </View>
     )
@@ -118,7 +123,6 @@ const Camera = () => {
 
   return (
     <>
-
     <View className="flex-1 bg-dark-100 items-center justify-center h-full w-full">
       {uri ? renderPicture() : renderCamera()}
     </View>
