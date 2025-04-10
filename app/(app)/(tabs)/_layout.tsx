@@ -60,6 +60,7 @@ const _Layout = () => {
             options={{
                 title: 'Camera',
                 headerShown:false,
+                tabBarStyle: { display: 'none' },
                 tabBarIcon : ({focused} : any) => (
                     <TabIcon focused = {focused} icon = {icons.camera} title = 'Camera' />
                  ) 
@@ -72,7 +73,8 @@ const _Layout = () => {
                 headerShown:false,
                 tabBarIcon : ({focused} : any) => (
                     <TabIcon focused = {focused} icon = {icons.card} title = 'Cards' />
-                 ) 
+                 )
+            
             }}
         />
         <Tabs.Screen 
