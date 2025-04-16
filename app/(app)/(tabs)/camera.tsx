@@ -1,9 +1,14 @@
 import { images } from '@/constants/images';
+import AWS from 'aws-sdk';
 import { CameraType, CameraView, useCameraPermissions } from 'expo-camera';
 import { router } from 'expo-router';
 import { useRef, useState } from 'react';
 import { Button, Image, Text, TouchableOpacity, View } from 'react-native';
 
+AWS.config.update({
+
+  
+})
 const Camera = () => {
   const [facing, setFacing] = useState<CameraType>('back')
   const [permission, requestPermission] = useCameraPermissions();
@@ -21,7 +26,10 @@ const Camera = () => {
       </View>
     )
   }
-
+  
+  const uploadToAWS = () => {
+    console.log(uri, "uploaded")
+  }
   const takePicture = async () => {
     const photo = await ref.current?.takePictureAsync();
     if (photo?.uri) {
@@ -44,7 +52,7 @@ const Camera = () => {
             setUri(null);
             router.back();
         }}>
-            <Image className="justify-start items-start w-4 h-4 font-bold" source={images.returnbutton}/>
+            <Image className="justify-start items-start w-6 h-6 font-bold" source={images.returnbutton}/>
         </TouchableOpacity>
         
 
@@ -81,19 +89,19 @@ const Camera = () => {
             height: 100, 
             backgroundColor: '#12122C', 
             zIndex: 10,
-        }}
+        }} 
         className="flex-row justify-center items-end">
         <TouchableOpacity className="pl-4 pb-2" onPress={() => {
             setUri(null);
             router.back();
         }}>
-            <Image className="w-4 h-4 font-bold" source={images.returnbutton}/>
+            <Image className="w-6 h-6 font-bold" source={images.returnbutton}/>
         </TouchableOpacity>
 
         <TouchableOpacity className="flex-1 items-end pr-4 pb-2" onPress={() => {
             setUri(null);
         }}>
-            <Image className="w-4 h-4 font-bold" source={images.cross}/>
+            <Image className="w-6 h-6 font-bold" source={images.cross}/>
         </TouchableOpacity>
         
       </View>
@@ -112,7 +120,9 @@ const Camera = () => {
           backgroundColor: '#12122C',
         }}>
 
-        <TouchableOpacity onPress={() => {}} 
+        <TouchableOpacity onPress={() => {
+           uploadToAWS()
+        }} 
           className="bg-dark-200 border-white w-1/2 h-14 items-center justify-center rounded-[50px] border-[1px] mb-20"> 
           <Text className="text-white font-bold text-xl"> Confirm</Text>
         </TouchableOpacity>
