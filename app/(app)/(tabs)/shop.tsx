@@ -1,113 +1,57 @@
-import React, { useCallback, useState } from "react";
-import { Button, StyleSheet, Text, TextInput, View } from "react-native";
 import "react-native-get-random-values";
 import "react-native-url-polyfill/auto";
 
 import {
-  CreateBucketCommand,
-  DeleteBucketCommand,
+  PutObjectCommand,
   S3Client,
 } from "@aws-sdk/client-s3";
-import { fromCognitoIdentityPool } from "@aws-sdk/credential-providers";
+import { Text, TouchableOpacity, View } from "react-native";
 
+// @ts-ignore
 const client = new S3Client({
-  // The AWS Region where the Amazon Simple Storage Service (Amazon S3) bucket will be created. Replace this with your Region.
   region: "ca-central-1",
-  credentials: fromCognitoIdentityPool({
-    // Replace the value of 'identityPoolId' with the ID of an Amazon Cognito identity pool in your Amazon Cognito Region.
-    identityPoolId: "ca-central-1:38bd04ae-3a47-407e-96af-d52da368fe4d",
-    // Replace the value of 'region' with your Amazon Cognito Region.
-    clientConfig: { region: "ca-central-1"},
-  }),
+  credentials: {
+    accessKeyId: process.env.EXPO_PUBLIC_ACCESS_KEY_ID,
+    secretAccessKey: process.env.EXPO_PUBLIC_ACCESS_KEY_SECRET,
+  },
 });
 
-enum MessageType {
-  SUCCESS = 0,
-  FAILURE = 1,
-  EMPTY = 2,
-}
+const command = new PutObjectCommand({
+  Bucket: process.env.EXPO_PUBLIC_BUCKET_NAME,
+  Key: "test",
+  Body: "hi"
+})
 
-const Shop = () => {
-  const [bucketName, setBucketName] = useState("");
-  const [msg, setMsg] = useState<{ message: string; type: MessageType }>({
-    message: "",
-    type: MessageType.EMPTY,
-  });
-
-  const createBucket = useCallback(async () => {
-    setMsg({ message: "", type: MessageType.EMPTY });
-
-    try {
-      await client.send(new CreateBucketCommand({ Bucket: bucketName }));
-      setMsg({
-        message: `Bucket "${bucketName}" created.`,
-        type: MessageType.SUCCESS,
-      });
-    } catch (e) {
-      console.error(e);
-      setMsg({
-        message: e instanceof Error ? e.message : "Unknown error",
-        type: MessageType.FAILURE,
-      });
-    }
-  }, [bucketName]);
-
-  const deleteBucket = useCallback(async () => {
-    setMsg({ message: "", type: MessageType.EMPTY });
-
-    try {
-      await client.send(new DeleteBucketCommand({ Bucket: bucketName }));
-      setMsg({
-        message: `Bucket "${bucketName}" deleted.`,
-        type: MessageType.SUCCESS,
-      });
-    } catch (e) {
-      setMsg({
-        message: e instanceof Error ? e.message : "Unknown error",
-        type: MessageType.FAILURE,
-      });
-    }
-  }, [bucketName]);
-
-  return (
-    <View style={styles.container}>
-      {msg.type !== MessageType.EMPTY && (
-        <Text
-          style={
-            msg.type === MessageType.SUCCESS
-              ? styles.successText
-              : styles.failureText
-          }
-        >
-          {msg.message}
-        </Text>
-      )}
-      <View>
-        <TextInput
-          onChangeText={(text) => setBucketName(text)}
-          autoCapitalize={"none"}
-          value={bucketName}
-          placeholder={"Enter Bucket Name"}
-        />
-        <Button color="#68a0cf" title="Create Bucket" onPress={createBucket} />
-        <Button color="#68a0cf" title="Delete Bucket" onPress={deleteBucket} />
-      </View>
-    </View>
-  );
+const uploadToAWS = async () => {
+  try {
+    const data = await client.send(command);
+    console.log("Upload successful:", data);
+    console.log("Uploaded successfully!");
+  } catch (error) {
+    console.error("Error uploading:", error);
+  }
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  successText: {
-    color: "green",
-  },
-  failureText: {
-    color: "red",
-  },
-});
+const Shop = () => {
+  
 
+  return (
+<View style={{
+          width: "100%",
+          height: "100%",
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: '#12122C',
+        }}>
+
+        <TouchableOpacity onPress={() => {
+           uploadToAWS()
+        }} 
+          className="bg-dark-200 border-white w-1/2 h-14 items-center justify-center rounded-[50px] border-[1px] mb-20"> 
+          <Text className="text-white font-bold text-xl"> Confirm</Text>
+        </TouchableOpacity>
+        </View>
+  )
+}
+     
 export default Shop;

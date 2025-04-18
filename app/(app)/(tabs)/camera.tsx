@@ -1,34 +1,38 @@
 import { images } from '@/constants/images';
-import AWS from 'aws-sdk';
+import auth from '@react-native-firebase/auth';
 import { CameraType, CameraView, useCameraPermissions } from 'expo-camera';
 import { router } from 'expo-router';
 import { useRef, useState } from 'react';
 import { Button, Image, Text, TouchableOpacity, View } from 'react-native';
+import { uploadFile } from "../../../utils/aws";
 
-AWS.config.update({
-
-  
-})
 const Camera = () => {
   const [facing, setFacing] = useState<CameraType>('back')
   const [permission, requestPermission] = useCameraPermissions();
   const [uri, setUri] = useState<string | null>(null)
   const ref = useRef<CameraView>(null);
+  const user = auth().currentUser;
+  const email = user?.email;
 
   if (!permission) {
     return <View />
   }
   if (!permission.granted){
     return (
-      <View className="justify-center">
-        <Text>Permission needed</Text>
+      <View className="flex-1 justify-center items-center">
+        <Text>Camera Permission needed</Text>
         <Button onPress={requestPermission} title="Grant permissions" />
       </View>
     )
   }
-  
-  const uploadToAWS = () => {
-    console.log(uri, "uploaded")
+
+  const uploadToAWS = async () => {
+    if (uri){
+      console.log(uri)
+      const data = await uploadFile(uri, email);
+      console.log(data);
+    }
+    
   }
   const takePicture = async () => {
     const photo = await ref.current?.takePictureAsync();
