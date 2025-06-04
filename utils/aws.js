@@ -34,6 +34,39 @@ export const uploadFile = async (uri, key) => {
         console.log(error)
         return error
     }
-    
-    
+}
+
+export const getCards = async (userId) => {
+    try {
+        const URL = process.env.EXPO_PUBLIC_API_URL + `/userCards?personId=${userId}`
+
+        const response = await fetch(URL)
+        if (!response.ok) {
+            throw new Error(`HTTP error: ${response.status}`)
+        }
+        const data = await response.json()
+        console.log(data)
+        return data
+    } catch(error){
+        console.log(error)
+        return error
+    }
+}
+
+export const analyzeCards = async (userId) => {
+    const URL = process.env.EXPO_PUBLIC_API_URL + `/analyze-image?personId=${userId}`
+      try {
+        console.log("Attempting to fetch:", URL);
+        const result = await fetch(URL, {
+          method: "POST",
+        });
+        console.log("Response status:", result.status);
+        console.log("Response headers:", result.headers);
+        const data = await result.json()
+        return data.cards
+    } catch (error) {
+      console.log("Error name:", error.name);
+      console.log("Error message:", error.message);
+      console.log("Error stack:", error.stack);
+    }
 }
